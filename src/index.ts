@@ -4,9 +4,8 @@ import express, { Application } from "express";
 import morgan from "morgan";
 import connectDB from "./database/db";
 import { errorHandler } from "./middleware/errorHandler";
-// import routes from "./routes";
-import scheduleRoutes from "./routes/scheduleRoutes";
 import authRoutes from "./routes/authRoutes";
+import scheduleRoutes from "./routes/scheduleRoutes";
 
 // Load environment variables
 dotenv.config();
@@ -14,9 +13,22 @@ dotenv.config();
 const app: Application = express();
 const port = process.env.PORT || 5000;
 
+// CORS configuration
+const corsOptions = {
+  origin: [
+    'http://localhost:5000',
+    'http://localhost:5173',
+    'https://*.vercel.app',
+    'https://gym-management-system.vercel.app'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(cors(corsOptions));
 app.use(morgan("dev"));
 
 // Routes
